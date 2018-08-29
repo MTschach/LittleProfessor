@@ -426,7 +426,20 @@ public class LittleProfessor extends JFrame implements WindowListener, MouseList
 
 
    private Object calculateNote(int correctTasks, int size) {
-      return "";
+      int pro = (int)(correctTasks * 100 / size);
+
+      if (pro >= 96)
+         return "1 (sehr gut)";
+      else if (pro >= 80)
+         return "2 (gut)";
+      else if (pro >= 60)
+         return "3 (befriedigend)";
+      else if (pro >= 45)
+         return "4 (ausreichend)";
+      else if (pro >= 16)
+         return "5 (mangelhaft)";
+      else
+         return "6 (ungenügend)";
    }
 
 

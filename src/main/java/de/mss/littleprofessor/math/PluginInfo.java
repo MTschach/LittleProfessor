@@ -21,8 +21,9 @@ import de.mss.littleprofessor.plugin.TaskType;
 
 public class PluginInfo implements de.mss.littleprofessor.plugin.PluginInfo {
 
-   protected JTextField       textMaxValue  = null;
-   protected JList<JCheckBox> operationList = null;
+   protected JTextField       textMaxValue   = null;
+   protected JList<JCheckBox> operationList  = null;
+   protected List<TaskType>   availableTasks = null;
 
 
    @Override
@@ -45,13 +46,15 @@ public class PluginInfo implements de.mss.littleprofessor.plugin.PluginInfo {
 
    @Override
    public List<TaskType> getAvailableTaskTypes() {
-      ArrayList<TaskType> list = new ArrayList<>();
-      list.add(new Addition());
-      list.add(new Subtraction());
-      list.add(new Multiply());
-      list.add(new Division());
-      list.add(new LittleOneByOne());
-      return list;
+      if (availableTasks == null) {
+         availableTasks = new ArrayList<>();
+         availableTasks.add(new Addition());
+         availableTasks.add(new Subtraction());
+         availableTasks.add(new Multiply());
+         availableTasks.add(new Division());
+         availableTasks.add(new LittleOneByOne());
+      }
+      return availableTasks;
    }
 
 
@@ -115,16 +118,9 @@ public class PluginInfo implements de.mss.littleprofessor.plugin.PluginInfo {
          if (comp instanceof JCheckBox) {
             JCheckBox box = (JCheckBox)comp;
             if (box.isSelected()) {
-               if (box.getText().equals("Addition"))
-                  list.add(new Addition());
-               else if (box.getText().equals("Subtraktion"))
-                  list.add(new Subtraction());
-               else if (box.getText().equals("Multiplikation"))
-                  list.add(new Multiply());
-               else if (box.getText().equals("Division"))
-                  list.add(new Division());
-               else if (box.getText().equals("Kleines 1x1"))
-                  list.add(new LittleOneByOne());
+               TaskType t = getTask(box.getText());
+               if (t != null)
+                  list.add(t);
             }
          }
       }
@@ -135,5 +131,15 @@ public class PluginInfo implements de.mss.littleprofessor.plugin.PluginInfo {
       }
 
       return list;
+   }
+
+
+   private TaskType getTask(String text) {
+      for (TaskType t : availableTasks) {
+         if (t.getTaskName().equals(text))
+            return t;
+      }
+
+      return null;
    }
 }
