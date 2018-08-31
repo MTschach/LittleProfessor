@@ -1,0 +1,4 @@
+dependencies {
+	compile project(':globlib')
+   testCompile 'junit:junit:4.12'
+}

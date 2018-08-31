@@ -1,0 +1,9 @@
+apply plugin: 'application'
+
+dependencies {
+	compile project(':globlib')
+	compile project(':mathlib')
+   testCompile 'junit:junit:4.12'
+}
+
+mainClassName = 'de.mss.littleprofessor.app.LittleProfessor'

@@ -1,2 +1,11 @@
+/.git/
+/.gradle/
+/.settings/
 /bin/
 /build/
+/app/.gradle/
+/app/build
+/globlib/.gradle/
+/globlib/build/
+/mathlib/.gradle/
+/mathlib/build/
