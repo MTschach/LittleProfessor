@@ -24,14 +24,8 @@ public class Multiply extends IntegerTaskType {
 
       t.setLastOperation(Operation.MULTIPLY);
 
-      if (BigInteger.TEN.compareTo(upperLimit) <= 0 || isMoreThan50Percent()) {
-         t.setTask(formatValue(a) + " * " + formatValue(b));
-         t.setResult(c);
-      }
-      else {
-         t.setTask(formatValue(c) + " / ? = " + formatValue(a));
-         t.setResult(b);
-      }
+      t.setTask(formatValue(a) + " * " + formatValue(b));
+      t.setResult(c);
 
       return t;
    }

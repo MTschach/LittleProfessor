@@ -19,14 +19,21 @@ public class Subtraction extends IntegerTaskType {
 
       t.setLastOperation(Operation.SUBTRACTION);
 
-      if (BigInteger.TEN.compareTo(upperLimit) <= 0 || isMoreThan50Percent()) {
+      int r = RandomNumberGenerator.nextNumber(BigInteger.ZERO, new BigInteger("2")).intValue();
+
+      if (BigInteger.TEN.compareTo(upperLimit) <= 0 || r == 0) {
          t.setTask(formatValue(c) + " - " + formatValue(b));
          t.setResult(a);
       }
-      else {
+      else if (r == 1) {
          t.setTask(formatValue(a) + " + ? = " + formatValue(c));
          t.setResult(b);
       }
+      else {
+         t.setTask(formatValue(c) + " - ? = " + formatValue(a));
+         t.setResult(b);
+      }
+
 
       return t;
    }
