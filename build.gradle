@@ -1,14 +1,25 @@
 
 
 allprojects {
-    repositories {
-        jcenter() 
-    }
+   repositories {
+		jcenter() 
+   }
 }
 
 
 
 subprojects {
-    version = '1.0'
+	apply plugin: 'java'
+   version = '1.0'
+}
+
+
+task muleapp(type: Copy) {
+    def jars=[]
+    subprojects.each {
+        jars+=it.libsDir
+    }
+    from jars
+    into 'bin'
 }
 

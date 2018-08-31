@@ -28,8 +28,14 @@ public class Division extends IntegerTaskType {
 
       t.setLastOperation(Operation.MULTIPLY);
 
-      t.setTask(formatValue(c) + " / " + formatValue(b));
-      t.setResult(a);
+      if (BigInteger.TEN.compareTo(upperLimit) <= 0 || isMoreThan50Percent()) {
+         t.setTask(formatValue(c) + " / " + formatValue(b));
+         t.setResult(a);
+      }
+      else {
+         t.setTask(formatValue(a) + " * ? =  " + formatValue(c));
+         t.setResult(b);
+      }
 
       return t;
    }

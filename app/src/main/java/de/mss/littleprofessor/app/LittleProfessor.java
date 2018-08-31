@@ -11,9 +11,17 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Random;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -77,8 +85,7 @@ public class LittleProfessor extends JFrame implements WindowListener, MouseList
 
 
    protected void init(String args[]) {
-      loadPlugins();
-
+      loadPlugins("./bin");
       this.setVisible(false);
       this.setTitle("LittleProfessor");
       this.setSize(new Dimension(this.maxWidth, this.maxHeight));
@@ -183,28 +190,54 @@ public class LittleProfessor extends JFrame implements WindowListener, MouseList
    }
 
 
-   private void loadPlugins() {
+   private void loadPlugins(String pathToLibs) {
       this.loadedPlugins = new ArrayList<>();
 
-      String[] pl = {"de.mss.littleprofessor.math.PluginInfo"};
+      File libs = new File(pathToLibs);
 
-      for (String p : pl) {
+      for (File f : libs.listFiles(new LibFileFilter())) {
+         JarFile j;
          try {
-            PluginInfo pluginInfo = (PluginInfo)Class.forName(p).newInstance();
-            loadedPlugins.add(pluginInfo);
+            j = new JarFile(f);
+            Enumeration<JarEntry> e = j.entries();
+            while (e.hasMoreElements()) {
+               JarEntry entry = e.nextElement();
+               if (entry.getName().contains("PluginInfo.class")) {
+                  loadPlugin(f, entry.getName().replaceAll("/", ".").replaceAll("\\\\", ".").replaceAll(".class", ""));
+                  break;
+               }
+            }
          }
-         catch (InstantiationException e) {
+         catch (IOException e1) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            e1.printStackTrace();
          }
-         catch (IllegalAccessException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-         }
-         catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-         }
+      }
+   }
+
+
+   private void loadPlugin(File jarArchive, String pluginInfoClassName) {
+      try {
+         URLClassLoader cl = new URLClassLoader(new URL[] {jarArchive.toURL()}, this.getClass().getClassLoader());
+         PluginInfo pluginInfo = (PluginInfo)Class.forName(pluginInfoClassName).newInstance();
+         loadedPlugins.add(pluginInfo);
+
+      }
+      catch (MalformedURLException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
+      catch (InstantiationException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
+      catch (IllegalAccessException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
+      catch (ClassNotFoundException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
       }
 
    }

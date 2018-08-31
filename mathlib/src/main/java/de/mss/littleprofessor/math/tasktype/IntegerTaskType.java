@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Random;
 
+import de.mss.littleprofessor.math.RandomNumberGenerator;
 import de.mss.littleprofessor.plugin.TaskType;
 
 public abstract class IntegerTaskType extends TaskType {
@@ -49,4 +50,7 @@ public abstract class IntegerTaskType extends TaskType {
    }
 
 
+   protected boolean isMoreThan50Percent() {
+      return RandomNumberGenerator.nextNumber(BigInteger.ZERO, BigInteger.TEN.add(BigInteger.TEN)).compareTo(BigInteger.TEN) >= 0;
+   }
 }
