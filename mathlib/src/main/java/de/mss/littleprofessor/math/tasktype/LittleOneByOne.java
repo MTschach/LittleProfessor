@@ -19,7 +19,7 @@ public class LittleOneByOne extends IntegerTaskType {
 
       IntegerMathTask t = new IntegerMathTask();
 
-      if (BigInteger.TEN.compareTo(RandomNumberGenerator.nextNumber(BigInteger.ZERO, new BigInteger(20))) < 0) {
+      if (BigInteger.TEN.compareTo(RandomNumberGenerator.nextNumber(BigInteger.ZERO, new BigInteger("20"))) < 0) {
          t.setLastOperation(Operation.MULTIPLY);
          t.setTask(formatValue(a) + " * " + formatValue(b));
          t.setResult(c);
@@ -37,13 +37,13 @@ public class LittleOneByOne extends IntegerTaskType {
    protected Task generateMultiplyTask() {
       MathTask t = new MathTask();
 
-      BigDecimal a = random(BigDecimal.TEN);
-      BigDecimal b = random(BigDecimal.TEN);
-      BigDecimal c = a.multiply(b);
-
-      t.setTask(formatValue(a) + " * " + formatValue(b));
-      t.setResult("" + formatValue(c));
-
+//      BigDecimal a = random(BigDecimal.TEN);
+//      BigDecimal b = random(BigDecimal.TEN);
+//      BigDecimal c = a.multiply(b);
+//
+//      t.setTask(formatValue(a) + " * " + formatValue(b));
+//      t.setResult("" + formatValue(c));
+//
       return t;
    }
 
@@ -51,14 +51,14 @@ public class LittleOneByOne extends IntegerTaskType {
    protected Task generateDivisionTask() {
       MathTask t = new MathTask();
 
-      BigDecimal a = random(BigDecimal.TEN);
-      if (BigInteger.ZERO.compareTo(a) == 0)
-         a = BigDecimal.ONE;
-      BigDecimal b = random(BigDecimal.TEN);
-      BigDecimal c = a.multiply(b);
-
-      t.setTask(formatValue(c) + " / " + formatValue(a));
-      t.setResult("" + formatValue(b));
+//      BigInteger a = random(BigInteger.TEN);
+//      if (BigInteger.ZERO.compareTo(a) == 0)
+//         a = BigInteger.ONE;
+//      BigInteger b = random(BigInteger.TEN);
+//      BigInteger c = a.multiply(b);
+//
+//      t.setTask(formatValue(c) + " / " + formatValue(a));
+//      t.setResult("" + formatValue(b));
 
       return t;
    }
