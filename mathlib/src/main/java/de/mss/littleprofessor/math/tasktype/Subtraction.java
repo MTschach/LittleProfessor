@@ -19,7 +19,7 @@ public class Subtraction extends IntegerTaskType {
 
       t.setLastOperation(Operation.SUBTRACTION);
 
-      int r = RandomNumberGenerator.nextNumber(BigInteger.ZERO, new BigInteger("2")).intValue();
+      int r = RandomNumberGenerator.nextNumber(BigInteger.ZERO, BigInteger.valueOf(2)).intValue();
 
       if (BigInteger.TEN.compareTo(upperLimit) <= 0 || r == 0) {
          t.setTask(formatValue(c) + " - " + formatValue(b));

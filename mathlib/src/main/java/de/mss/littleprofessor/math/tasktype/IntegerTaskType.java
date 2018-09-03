@@ -23,8 +23,20 @@ public abstract class IntegerTaskType extends TaskType {
    }
 
 
+   @Override
+   public void setLowerLimit(BigDecimal l) {
+      this.lowerLimit = BigInteger.valueOf(l.intValue());
+   }
+
+
    public void setLowerLimit(BigInteger l) {
       this.lowerLimit = l;
+   }
+
+
+   @Override
+   public void setUpperLimit(BigDecimal l) {
+      this.upperLimit = BigInteger.valueOf(l.intValue());
    }
 
 

@@ -7,24 +7,23 @@ import de.mss.littleprofessor.math.Operation;
 import de.mss.littleprofessor.math.RandomNumberGenerator;
 import de.mss.littleprofessor.plugin.Task;
 
-public class LittleOneByOne extends IntegerTaskType {
+public class RootAndSquare extends IntegerTaskType {
 
    @Override
    public Task generateTask() {
-      BigInteger a = RandomNumberGenerator.nextNumber(BigInteger.ZERO, BigInteger.TEN);
-      BigInteger b = RandomNumberGenerator.nextNumber(BigInteger.ZERO, BigInteger.TEN);
-      BigInteger c = a.multiply(b);
+      BigInteger a = RandomNumberGenerator.nextNumber(BigInteger.ZERO, BigInteger.valueOf(20));
+      BigInteger c = a.multiply(a);
 
       IntegerMathTask t = new IntegerMathTask();
 
       if (BigInteger.TEN.compareTo(RandomNumberGenerator.nextNumber(BigInteger.ZERO, BigInteger.valueOf(20))) < 0) {
          t.setLastOperation(Operation.MULTIPLY);
-         t.setTask(formatValue(a) + " * " + formatValue(b));
+         t.setTask(formatValue(a) + "²");
          t.setResult(c);
       }
       else {
          t.setLastOperation(Operation.DIVIDE);
-         t.setTask(formatValue(c) + " / " + formatValue(b));
+         t.setTask("\u221A" + formatValue(c));
          t.setResult(a);
       }
 
@@ -34,7 +33,7 @@ public class LittleOneByOne extends IntegerTaskType {
 
    @Override
    public String getTaskName() {
-      return "Kleines 1x1";
+      return "Quadrate und Wurzeln";
    }
 
 }

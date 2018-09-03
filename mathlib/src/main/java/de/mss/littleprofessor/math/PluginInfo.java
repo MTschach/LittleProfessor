@@ -12,10 +12,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import de.mss.littleprofessor.math.tasktype.AddSubChain;
 import de.mss.littleprofessor.math.tasktype.Addition;
 import de.mss.littleprofessor.math.tasktype.Division;
 import de.mss.littleprofessor.math.tasktype.LittleOneByOne;
 import de.mss.littleprofessor.math.tasktype.Multiply;
+import de.mss.littleprofessor.math.tasktype.RootAndSquare;
 import de.mss.littleprofessor.math.tasktype.Subtraction;
 import de.mss.littleprofessor.plugin.TaskType;
 
@@ -53,6 +55,8 @@ public class PluginInfo implements de.mss.littleprofessor.plugin.PluginInfo {
          availableTasks.add(new Multiply());
          availableTasks.add(new Division());
          availableTasks.add(new LittleOneByOne());
+         availableTasks.add(new RootAndSquare());
+         availableTasks.add(new AddSubChain());
       }
       return availableTasks;
    }
@@ -74,11 +78,10 @@ public class PluginInfo implements de.mss.littleprofessor.plugin.PluginInfo {
 
       operationList = new JList<JCheckBox>();
 
-      operationList.add(getCheckBox(new Addition(), 0));
-      operationList.add(getCheckBox(new Subtraction(), 1));
-      operationList.add(getCheckBox(new Multiply(), 2));
-      operationList.add(getCheckBox(new Division(), 3));
-      operationList.add(getCheckBox(new LittleOneByOne(), 4));
+      int i = 0;
+      for (TaskType t : getAvailableTaskTypes()) {
+         operationList.add(getCheckBox(t, i++ ));
+      }
 
       JScrollPane scrollPane = new JScrollPane(operationList);
       scrollPane.setBounds(5, 5, 260, 170);
