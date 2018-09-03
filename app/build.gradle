@@ -1,9 +1,13 @@
+apply plugin: 'java'
 apply plugin: 'application'
 
 dependencies {
+	compile 'Mss:MssLogging:latest.release'
 	compile project(':globlib')
 	compile project(':mathlib')
+	compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
    testCompile 'junit:junit:4.12'
 }
+
 
 mainClassName = 'de.mss.littleprofessor.app.LittleProfessor'

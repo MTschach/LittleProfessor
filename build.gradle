@@ -1,9 +1,13 @@
+apply plugin: 'java'
+
 allprojects {
    repositories {
 		jcenter() 
+		maven {
+			url "https://dl.bintray.com/mtschach/Mss"
+		}
    }
 }
-
 
 
 subprojects {
@@ -12,7 +16,8 @@ subprojects {
 }
 
 
-task muleapp(type: Copy) {
+task copyBin(type: Copy) {
+	dependsOn build
     def jars=[]
     subprojects.each {
         jars+=it.libsDir

@@ -13,7 +13,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -36,9 +35,18 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+
 import de.mss.littleprofessor.plugin.PluginInfo;
 import de.mss.littleprofessor.plugin.Task;
 import de.mss.littleprofessor.plugin.TaskType;
+import de.mss.logging.BaseLogger;
+import de.mss.logging.LoggingFactory;
 import de.mss.utils.StopWatch;
 
 public class LittleProfessor extends JFrame implements WindowListener, MouseListener, ActionListener, KeyListener {
@@ -68,14 +76,21 @@ public class LittleProfessor extends JFrame implements WindowListener, MouseList
 
    protected JTable            resultTable       = null;
 
+   protected String            pluginDir         = null;
+
    /**
     * 
     */
    private static final long   serialVersionUID  = -7067067848699201534L;
 
 
-   public LittleProfessor(String args[]) {
-      init(args);
+   public LittleProfessor(String[] args) {
+      try {
+         init(args);
+      }
+      catch (ParseException e) {
+         getLogger().logError("", e);
+      }
    }
 
 
@@ -84,8 +99,12 @@ public class LittleProfessor extends JFrame implements WindowListener, MouseList
    }
 
 
-   protected void init(String args[]) {
-      loadPlugins("./bin");
+   protected void init(String[] args) throws ParseException {
+      initArgs(args);
+
+      LoggingFactory.createInstance("default", new BaseLogger());
+
+      loadPlugins(pluginDir);
       this.setVisible(false);
       this.setTitle("LittleProfessor");
       this.setSize(new Dimension(this.maxWidth, this.maxHeight));
@@ -100,6 +119,24 @@ public class LittleProfessor extends JFrame implements WindowListener, MouseList
       this.getContentPane().add(this.tabs);
 
       this.setVisible(true);
+   }
+
+
+   private void initArgs(String[] args) throws ParseException {
+      Options cmdArgs = new Options();
+
+      Option configFile = new Option("p", "plugin-dir", true, "Plugin directory");
+      configFile.setRequired(false);
+      cmdArgs.addOption(configFile);
+
+      CommandLineParser parser = new DefaultParser();
+      CommandLine cmd = parser.parse(cmdArgs, args);
+
+      if (cmd.hasOption("plugin-dir"))
+         this.pluginDir = cmd.getOptionValue("plugin-dir");
+
+      if (this.pluginDir == null)
+         this.pluginDir = "bin";
    }
 
 
@@ -122,12 +159,7 @@ public class LittleProfessor extends JFrame implements WindowListener, MouseList
 
       tabs.addTab("Auswahl", p);
 
-      p = new JPanel();
-
       tabs.addTab("Aufgaben", initTaskPanel());
-
-
-      p = new JPanel();
 
       tabs.addTab("Ergebnis", initResultPanel());
 
@@ -209,10 +241,14 @@ public class LittleProfessor extends JFrame implements WindowListener, MouseList
             }
          }
          catch (IOException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
+            getLogger().logError("", e1);
          }
       }
+   }
+
+
+   private BaseLogger getLogger() {
+      return LoggingFactory.getLogger("system");
    }
 
 
@@ -223,23 +259,25 @@ public class LittleProfessor extends JFrame implements WindowListener, MouseList
          loadedPlugins.add(pluginInfo);
 
       }
-      catch (MalformedURLException e) {
-         // TODO Auto-generated catch block
-         e.printStackTrace();
+      catch (Exception e) {
+         getLogger().logError("", e);
       }
-      catch (InstantiationException e) {
-         // TODO Auto-generated catch block
-         e.printStackTrace();
-      }
-      catch (IllegalAccessException e) {
-         // TODO Auto-generated catch block
-         e.printStackTrace();
-      }
-      catch (ClassNotFoundException e) {
-         // TODO Auto-generated catch block
-         e.printStackTrace();
-      }
+   }
 
+
+   private void loadPlugins() {
+      this.loadedPlugins = new ArrayList<>();
+      try {
+         String[] plugins = new String[] {"de.mss.littleprofessor.math.PluginInfo"};
+
+         for (String pluginInfoClassName : plugins) {
+            PluginInfo pluginInfo = (PluginInfo)Class.forName(pluginInfoClassName).newInstance();
+            loadedPlugins.add(pluginInfo);
+         }
+      }
+      catch (Exception e) {
+         getLogger().logError("", e);
+      }
    }
 
 
@@ -403,6 +441,7 @@ public class LittleProfessor extends JFrame implements WindowListener, MouseList
 
       this.currentTaskText.setText(this.taskList.get(this.currentTask).getTask());
       this.currentResult.setText("");
+      this.currentResult.requestFocus();
       stopWatch.reset();
       stopWatch.start();
    }
@@ -446,9 +485,9 @@ public class LittleProfessor extends JFrame implements WindowListener, MouseList
       sb.append(correctTasks);
       sb.append(" von ");
       sb.append(size);
-      sb.append(" Aufgabe(n) richtig.\nDafür hast du ");
+      sb.append(" Aufgabe(n) richtig. \nDafür hast du ");
       sb.append(formatDuration(duration));
-      sb.append(" benötigt.");
+      sb.append(" benötigt. ");
 
       sb.append("\nDas wäre eine ");
       sb.append(calculateNote(correctTasks, size));
@@ -540,11 +579,15 @@ public class LittleProfessor extends JFrame implements WindowListener, MouseList
 
    private class MyTableCellRender extends DefaultTableCellRenderer {
 
+      private static final long serialVersionUID = 1L;
+
+
       public MyTableCellRender() {
          setOpaque(true);
       }
 
 
+      @Override
       public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
          if ("richtig".equals(table.getValueAt(row, 3))) {
             setBackground(Color.GREEN);

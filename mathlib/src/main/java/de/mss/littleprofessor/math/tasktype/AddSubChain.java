@@ -16,6 +16,8 @@ public class AddSubChain extends IntegerTaskType {
       if (BigInteger.valueOf(20).compareTo(upperLimit) >= 0)
          maxChainLength = 3;
       else if (BigInteger.valueOf(20).compareTo(upperLimit) < 0)
+         maxChainLength = 5;
+      else if (BigInteger.valueOf(100).compareTo(upperLimit) < 0)
          maxChainLength = 10;
 
       int chainLength = RandomNumberGenerator.nextNumber(BigInteger.valueOf(2), BigInteger.valueOf(maxChainLength)).intValue();
