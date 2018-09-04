@@ -16,7 +16,3 @@ include 'services:webservice'
 */
 
 rootProject.name = 'LittleProfessor'
-
-include 'globlib'
-include 'mathlib'
-include 'app'

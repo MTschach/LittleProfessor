@@ -1,28 +1,17 @@
 apply plugin: 'java'
+apply plugin: 'application'
 
-allprojects {
-   repositories {
-		jcenter() 
-		maven {
-			url "https://dl.bintray.com/mtschach/Mss"
-		}
-   }
+repositories {
+	jcenter() 
+	maven {
+		url "https://dl.bintray.com/mtschach/Mss"
+	}
 }
 
+dependencies {
+	compile 'Mss:MssLogging:latest.release'
+	compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
+   testCompile 'junit:junit:4.12'
+} 
 
-subprojects {
-	apply plugin: 'java'
-   version = '1.0'
-}
-
-
-task copyBin(type: Copy) {
-	dependsOn build
-    def jars=[]
-    subprojects.each {
-        jars+=it.libsDir
-    }
-    from jars
-    into 'bin'
-}
-
+mainClassName = 'de.mss.littleprofessor.app.LittleProfessor'
