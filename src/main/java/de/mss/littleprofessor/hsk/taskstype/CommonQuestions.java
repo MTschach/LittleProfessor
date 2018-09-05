@@ -12,7 +12,27 @@ public class CommonQuestions extends TaskType {
    private static QuestionAnswer[] questions = {
                                                 new QuestionAnswer("Wieviele Jahreszeiten gibt es?", "4,vier", 1),
                                                 new QuestionAnswer("Wieviele Monate hat ein Jahr?", "12,zwölf", 1),
-                                                new QuestionAnswer("Wieviele Tage hat eine Woche?", "7,sieben", 1)
+                                                new QuestionAnswer("Wieviele Tage hat eine Woche?", "7,sieben", 1),
+                                                new QuestionAnswer("Welcher Nadelbaum verliert im winter seine Nadeln?", "Lärche", 1),
+                                                new QuestionAnswer("Welches Tier rollt sich bei Gefahr zu einer Stachelkugel zusammen?", "Igel", 1),
+
+                                                new QuestionAnswer("Nenne mindestens 2 Winterblüher", "Schneeglöckchen,Winterling,Christrose", 2),
+
+                                                new QuestionAnswer(
+                                                      "Nenne mindestens 3 Frühjahrsblüher",
+                                                      "Krokus,Maiglöckchen,Märzenbecher,Narzisse,Osterglocke",
+                                                      3),
+                                                new QuestionAnswer(
+                                                      "Nenne mindestens 3 einheimische Laubbäume",
+                                                      "Ahorn,Buche,Eiche,Birke,Linde,Kastanie,Pappel,Erle",
+                                                      3),
+                                                new QuestionAnswer(
+                                                      "Nenne 3 einheimische Früchte",
+                                                      "Apfel,Birne,Kirsche,Erdbeere,Himbeere,Stachelbeere,Pflaume",
+                                                      3),
+
+                                                new QuestionAnswer("Welche Jahreszeiten gibt es?", "Frühling,Sommer,Herbst,Winter", 4)
+
    };
 
 
