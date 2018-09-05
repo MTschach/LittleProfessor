@@ -1,4 +1,4 @@
-package de.mss.littleprofessor.math;
+package de.mss.littleprofessor.plugin;
 
 import java.math.BigInteger;
 import java.util.Random;

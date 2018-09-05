@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Random;
 
-import de.mss.littleprofessor.math.RandomNumberGenerator;
+import de.mss.littleprofessor.plugin.RandomNumberGenerator;
 import de.mss.littleprofessor.plugin.TaskType;
 
 public abstract class IntegerTaskType extends TaskType {

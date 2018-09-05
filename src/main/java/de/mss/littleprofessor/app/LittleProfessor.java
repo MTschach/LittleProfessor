@@ -135,8 +135,6 @@ public class LittleProfessor extends JFrame implements WindowListener, MouseList
       if (cmd.hasOption("plugin-dir"))
          this.pluginDir = cmd.getOptionValue("plugin-dir");
 
-      if (this.pluginDir == null)
-         this.pluginDir = "bin";
    }
 
 
@@ -225,6 +223,11 @@ public class LittleProfessor extends JFrame implements WindowListener, MouseList
    private void loadPlugins(String pathToLibs) {
       this.loadedPlugins = new ArrayList<>();
 
+      if (pathToLibs == null) {
+         loadPlugins();
+         return;
+      }
+
       File libs = new File(pathToLibs);
 
       for (File f : libs.listFiles(new LibFileFilter())) {
@@ -268,7 +271,7 @@ public class LittleProfessor extends JFrame implements WindowListener, MouseList
    private void loadPlugins() {
       this.loadedPlugins = new ArrayList<>();
       try {
-         String[] plugins = new String[] {"de.mss.littleprofessor.math.PluginInfo"};
+         String[] plugins = new String[] {"de.mss.littleprofessor.math.PluginInfo", "de.mss.littleprofessor.hsk.PluginInfo"};
 
          for (String pluginInfoClassName : plugins) {
             PluginInfo pluginInfo = (PluginInfo)Class.forName(pluginInfoClassName).newInstance();

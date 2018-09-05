@@ -4,7 +4,7 @@ import java.math.BigInteger;
 
 import de.mss.littleprofessor.math.IntegerMathTask;
 import de.mss.littleprofessor.math.Operation;
-import de.mss.littleprofessor.math.RandomNumberGenerator;
+import de.mss.littleprofessor.plugin.RandomNumberGenerator;
 import de.mss.littleprofessor.plugin.Task;
 
 public class LittleOneByOne extends IntegerTaskType {
