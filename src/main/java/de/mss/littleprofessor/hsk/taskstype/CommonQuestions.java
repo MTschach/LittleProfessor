@@ -2,7 +2,7 @@ package de.mss.littleprofessor.hsk.taskstype;
 
 import java.math.BigInteger;
 
-import de.mss.littleprofessor.hsk.ListMatcherTask;
+import de.mss.littleprofessor.plugin.ItemsFromListTask;
 import de.mss.littleprofessor.plugin.RandomNumberGenerator;
 import de.mss.littleprofessor.plugin.Task;
 import de.mss.littleprofessor.plugin.TaskType;
@@ -13,10 +13,11 @@ public class CommonQuestions extends TaskType {
                                                 new QuestionAnswer("Wieviele Jahreszeiten gibt es?", "4,vier", 1),
                                                 new QuestionAnswer("Wieviele Monate hat ein Jahr?", "12,zwölf", 1),
                                                 new QuestionAnswer("Wieviele Tage hat eine Woche?", "7,sieben", 1),
-                                                new QuestionAnswer("Welcher Nadelbaum verliert im winter seine Nadeln?", "Lärche", 1),
+                                                new QuestionAnswer("Welcher Nadelbaum verliert im Winter seine Nadeln?", "Lärche", 1),
                                                 new QuestionAnswer("Welches Tier rollt sich bei Gefahr zu einer Stachelkugel zusammen?", "Igel", 1),
 
                                                 new QuestionAnswer("Nenne mindestens 2 Winterblüher", "Schneeglöckchen,Winterling,Christrose", 2),
+                                                new QuestionAnswer("Nenne mindestens 2 Getreidearten", "Weizen,Roggen,Gerste,Hafer,Dinkel", 2),
 
                                                 new QuestionAnswer(
                                                       "Nenne mindestens 3 Frühjahrsblüher",
@@ -26,6 +27,7 @@ public class CommonQuestions extends TaskType {
                                                       "Nenne mindestens 3 einheimische Laubbäume",
                                                       "Ahorn,Buche,Eiche,Birke,Linde,Kastanie,Pappel,Erle",
                                                       3),
+                                                new QuestionAnswer("Nennen mindestens 3 einheimische Nadelbäume", "Fichte,Kiefer,Lärche,Tanne", 3),
                                                 new QuestionAnswer(
                                                       "Nenne 3 einheimische Früchte",
                                                       "Apfel,Birne,Kirsche,Erdbeere,Himbeere,Stachelbeere,Pflaume",
@@ -40,7 +42,7 @@ public class CommonQuestions extends TaskType {
    public Task generateTask() {
       int index = RandomNumberGenerator.nextNumber(BigInteger.ZERO, BigInteger.valueOf(questions.length - 1l)).intValue();
 
-      ListMatcherTask task = new ListMatcherTask(questions[index].getRequiredMatches());
+      ItemsFromListTask task = new ItemsFromListTask(questions[index].getRequiredMatches());
 
       task.setResult(questions[index].getAnswer());
       task.setTask(questions[index].getQuestion());

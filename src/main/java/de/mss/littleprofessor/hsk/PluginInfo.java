@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import de.mss.littleprofessor.hsk.taskstype.CommonQuestions;
+import de.mss.littleprofessor.hsk.taskstype.Potato;
 import de.mss.littleprofessor.plugin.TaskType;
 
 public class PluginInfo implements de.mss.littleprofessor.plugin.PluginInfo {
@@ -42,6 +43,7 @@ public class PluginInfo implements de.mss.littleprofessor.plugin.PluginInfo {
       if (availableTasks == null) {
          availableTasks = new ArrayList<>();
          availableTasks.add(new CommonQuestions());
+         availableTasks.add(new Potato());
       }
       return availableTasks;
    }

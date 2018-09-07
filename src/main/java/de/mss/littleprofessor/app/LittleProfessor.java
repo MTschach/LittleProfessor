@@ -51,6 +51,11 @@ import de.mss.utils.StopWatch;
 
 public class LittleProfessor extends JFrame implements WindowListener, MouseListener, ActionListener, KeyListener {
 
+   private static final String CMD_OPTION_PLUGIN_DIR = "plugin-dir";
+   private static final String CMD_OPTION_DEBUG      = "debug";
+   private static final String CMD_OPTION_VERBOSE    = "verbose";
+
+
    protected JComboBox<String> comboSchoolgrade  = null;
    protected JTextField        textNumberOfTasks = null;
 
@@ -102,8 +107,6 @@ public class LittleProfessor extends JFrame implements WindowListener, MouseList
    protected void init(String[] args) throws ParseException {
       initArgs(args);
 
-      LoggingFactory.createInstance("default", new BaseLogger());
-
       loadPlugins(pluginDir);
       this.setVisible(false);
       this.setTitle("LittleProfessor");
@@ -125,16 +128,33 @@ public class LittleProfessor extends JFrame implements WindowListener, MouseList
    private void initArgs(String[] args) throws ParseException {
       Options cmdArgs = new Options();
 
-      Option configFile = new Option("p", "plugin-dir", true, "Plugin directory");
+      Option configFile = new Option("p", CMD_OPTION_PLUGIN_DIR, true, "Plugin directory");
       configFile.setRequired(false);
       cmdArgs.addOption(configFile);
+
+      Option debug = new Option("d", CMD_OPTION_DEBUG, false, "Debug Information");
+      debug.setRequired(false);
+      cmdArgs.addOption(debug);
+
+      Option verbose = new Option(CMD_OPTION_VERBOSE, false, "Debug Information");
+      verbose.setRequired(false);
+      cmdArgs.addOption(verbose);
 
       CommandLineParser parser = new DefaultParser();
       CommandLine cmd = parser.parse(cmdArgs, args);
 
-      if (cmd.hasOption("plugin-dir"))
-         this.pluginDir = cmd.getOptionValue("plugin-dir");
+      if (cmd.hasOption(CMD_OPTION_PLUGIN_DIR))
+         this.pluginDir = cmd.getOptionValue(CMD_OPTION_PLUGIN_DIR);
 
+      BaseLogger l = new BaseLogger();
+      l.setLevel(BaseLogger.getLevelInfo());
+
+      if (cmd.hasOption(CMD_OPTION_VERBOSE))
+         l.setLevel(BaseLogger.getLevelVerbose());
+      else if (cmd.hasOption(CMD_OPTION_DEBUG))
+         l.setLevel(BaseLogger.getLevelDebug());
+
+      LoggingFactory.createInstance("system", l);
    }
 
 
@@ -231,9 +251,7 @@ public class LittleProfessor extends JFrame implements WindowListener, MouseList
       File libs = new File(pathToLibs);
 
       for (File f : libs.listFiles(new LibFileFilter())) {
-         JarFile j;
-         try {
-            j = new JarFile(f);
+         try (JarFile j = new JarFile(f)) {
             Enumeration<JarEntry> e = j.entries();
             while (e.hasMoreElements()) {
                JarEntry entry = e.nextElement();
@@ -257,8 +275,8 @@ public class LittleProfessor extends JFrame implements WindowListener, MouseList
 
    private void loadPlugin(File jarArchive, String pluginInfoClassName) {
       try {
-         URLClassLoader cl = new URLClassLoader(new URL[] {jarArchive.toURL()}, this.getClass().getClassLoader());
-         PluginInfo pluginInfo = (PluginInfo)Class.forName(pluginInfoClassName).newInstance();
+         URLClassLoader cl = new URLClassLoader(new URL[] {jarArchive.toURI().toURL()}, this.getClass().getClassLoader());
+         PluginInfo pluginInfo = (PluginInfo)Class.forName(pluginInfoClassName, true, cl).newInstance();
          loadedPlugins.add(pluginInfo);
 
       }
@@ -321,84 +339,73 @@ public class LittleProfessor extends JFrame implements WindowListener, MouseList
 
    @Override
    public void mouseClicked(MouseEvent e) {
-      // TODO Auto-generated method stub
-
+      // nix zu tun, bleibt leer
    }
 
 
    @Override
    public void mousePressed(MouseEvent e) {
-      // TODO Auto-generated method stub
-
+      // nix zu tun, bleibt leer
    }
 
 
    @Override
    public void mouseReleased(MouseEvent e) {
-      // TODO Auto-generated method stub
-
+      // nix zu tun, bleibt leer
    }
 
 
    @Override
    public void mouseEntered(MouseEvent e) {
-      // TODO Auto-generated method stub
-
+      // nix zu tun, bleibt leer
    }
 
 
    @Override
    public void mouseExited(MouseEvent e) {
-      // TODO Auto-generated method stub
-
+      // nix zu tun, bleibt leer
    }
 
 
    @Override
    public void windowOpened(WindowEvent e) {
-      // TODO Auto-generated method stub
-
+      // nix zu tun, bleibt leer
    }
 
 
    @Override
    public void windowClosing(WindowEvent e) {
-      // TODO Auto-generated method stub
       deinit();
    }
 
 
    @Override
    public void windowClosed(WindowEvent e) {
-      // TODO Auto-generated method stub
+      // nix zu tun, bleibt leer
    }
 
 
    @Override
    public void windowIconified(WindowEvent e) {
-      // TODO Auto-generated method stub
-
+      // nix zu tun, bleibt leer
    }
 
 
    @Override
    public void windowDeiconified(WindowEvent e) {
-      // TODO Auto-generated method stub
-
+      // nix zu tun, bleibt leer
    }
 
 
    @Override
    public void windowActivated(WindowEvent e) {
-      // TODO Auto-generated method stub
-
+      // nix zu tun, bleibt leer
    }
 
 
    @Override
    public void windowDeactivated(WindowEvent e) {
-      // TODO Auto-generated method stub
-
+      // nix zu tun, bleibt leer
    }
 
 
@@ -469,6 +476,7 @@ public class LittleProfessor extends JFrame implements WindowListener, MouseList
 
       int i = 0;
       for (Task t : this.taskList) {
+         getLogger().logInfo("", t.toString());
          dataModel.setValueAt(t.getTask(), i, 0);
          dataModel.setValueAt(t.getGivenResult(), i, 1);
          dataModel.setValueAt(t.getResult(), i, 2);
@@ -501,7 +509,7 @@ public class LittleProfessor extends JFrame implements WindowListener, MouseList
 
 
    private Object calculateNote(int correctTasks, int size) {
-      int pro = (int)(correctTasks * 100 / size);
+      int pro = correctTasks * 100 / size;
 
       if (pro >= 96)
          return "1 (sehr gut)";
@@ -560,15 +568,13 @@ public class LittleProfessor extends JFrame implements WindowListener, MouseList
 
    @Override
    public void keyTyped(KeyEvent e) {
-      // TODO Auto-generated method stub
-
+      // nix zu tun, bleibt leer
    }
 
 
    @Override
    public void keyPressed(KeyEvent e) {
-      // TODO Auto-generated method stub
-
+      // nix zu tun, bleibt leer
    }
 
 

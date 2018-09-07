@@ -8,6 +8,20 @@ public class QuestionAnswer {
    private int    requiredMatches = 1;
 
 
+   public QuestionAnswer(String q, String a) {
+      this.question = q;
+      this.answer = a;
+      this.requiredMatches = 1;
+   }
+
+
+   public QuestionAnswer(String q, int a) {
+      this.question = q;
+      this.answer = "" + a;
+      this.requiredMatches = 1;
+   }
+
+
    public QuestionAnswer(String q, String a, int rm) {
       this.question = q;
       this.answer = a;
