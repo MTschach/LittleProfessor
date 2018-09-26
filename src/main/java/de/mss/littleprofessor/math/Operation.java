@@ -2,22 +2,30 @@ package de.mss.littleprofessor.math;
 
 
 public enum Operation {
-   ADDITION("+"),
-   SUBTRACTION("-"),
-   MULTIPLY("*"),
-   DIVIDE("/");
+   NONE("", 0),
+   ADDITION("+", 1),
+   SUBTRACTION("-", 1),
+   MULTIPLY("*", 2),
+   DIVIDE("/", 2);
 
 
-   private String operation = null;
+   private String operation      = null;
+   private int    operationLevel = 0;
 
 
-   private Operation(String o) {
+   private Operation(String o, int ol) {
       this.operation = o;
+      this.operationLevel = ol;
    }
 
 
    public String getOperation() {
       return this.operation;
+   }
+
+
+   public int getOperationLevel() {
+      return this.operationLevel;
    }
 
 

@@ -13,8 +13,8 @@ public class RandomNumberGenerator {
          return new BigInteger("" + numberGenerator.nextInt());
 
       BigInteger range = maxValue.subtract(minValue).add(BigInteger.ONE);
-
-      int val = (int)(Math.random() * range.intValue()) + minValue.intValue();
+      int rand = new Random().nextInt();
+      int val = (Math.abs(rand) % range.intValue()) + minValue.intValue();
 
       return new BigInteger("" + val);
    }
