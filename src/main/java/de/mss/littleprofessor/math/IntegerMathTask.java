@@ -175,7 +175,7 @@ public class IntegerMathTask extends MathTask {
       }
       task.setOperand2(r);
       task.setResult(res);
-      task.setTask(formatValue(task.getOperand1()) + " / " + formatValue(task.getOperand2()));
+      task.setTask(formatValue(task.getOperand1()) + " : " + formatValue(task.getOperand2()));
 
       return task;
    }
@@ -197,7 +197,7 @@ public class IntegerMathTask extends MathTask {
       task.setOperand1(a);
       task.setOperand2(b);
       task.setResult(c);
-      task.setTask(formatValue(task.getOperand1()) + " / " + formatValue(task.getOperand2()));
+      task.setTask(formatValue(task.getOperand1()) + " : " + formatValue(task.getOperand2()));
 
       return task;
    }

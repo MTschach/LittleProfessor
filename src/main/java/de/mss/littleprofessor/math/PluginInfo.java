@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 
 import de.mss.littleprofessor.math.tasktype.AddSubChain;
 import de.mss.littleprofessor.math.tasktype.Addition;
+import de.mss.littleprofessor.math.tasktype.Chain;
 import de.mss.littleprofessor.math.tasktype.Division;
 import de.mss.littleprofessor.math.tasktype.LittleOneByOne;
 import de.mss.littleprofessor.math.tasktype.Multiply;
@@ -57,6 +58,7 @@ public class PluginInfo implements de.mss.littleprofessor.plugin.PluginInfo {
          availableTasks.add(new LittleOneByOne());
          availableTasks.add(new RootAndSquare());
          availableTasks.add(new AddSubChain());
+         availableTasks.add(new Chain());
       }
       return availableTasks;
    }

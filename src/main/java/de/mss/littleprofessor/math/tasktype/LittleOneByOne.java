@@ -24,7 +24,7 @@ public class LittleOneByOne extends IntegerTaskType {
       }
       else {
          t.setLastOperation(Operation.DIVIDE);
-         t.setTask(formatValue(c) + " / " + formatValue(b));
+         t.setTask(formatValue(c) + " : " + formatValue(b));
          t.setResult(a);
       }
 
