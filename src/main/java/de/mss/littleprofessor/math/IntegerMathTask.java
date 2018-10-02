@@ -166,15 +166,24 @@ public class IntegerMathTask extends MathTask {
 
       IntegerMathTask task = new IntegerMathTask();
       task.setLastOperation(Operation.DIVIDE);
-      task.setOperand1(checkZero(RandomNumberGenerator.nextNumber(lowerLimit, upperLimit)));
-      BigInteger r = res.divide(task.getOperand1());
 
-      while (r.compareTo(lowerLimit) < 0 || r.compareTo(upperLimit) > 0) {
-         task.setOperand1(checkZero(RandomNumberGenerator.nextNumber(lowerLimit, upperLimit)));
-         r = res.divide(task.getOperand1());
+      if (BigInteger.ZERO.compareTo(res) == 0) {
+         task.setOperand1(res);
+         task.setOperand2(checkZero(RandomNumberGenerator.nextNumber(lowerLimit, upperLimit)));
       }
-      task.setOperand2(r);
-      task.setResult(res);
+      else {
+
+         task.setOperand2(checkZero(RandomNumberGenerator.nextNumber(lowerLimit, upperLimit)));
+         BigInteger r = res.multiply(task.getOperand2());
+
+         while (r.compareTo(lowerLimit) < 0 || r.compareTo(upperLimit) > 0) {
+            task.setOperand2(checkZero(RandomNumberGenerator.nextNumber(lowerLimit, upperLimit)));
+            r = res.multiply(task.getOperand2());
+         }
+         task.setOperand1(r);
+         task.setResult(res);
+      }
+
       task.setTask(formatValue(task.getOperand1()) + " : " + formatValue(task.getOperand2()));
 
       return task;
